@@ -1,68 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Manager</title>
     <style>
-        body{
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            background-color: #f4f4f4;
-        }
-        h1{
-            color:#333;
-            margin-bottom: 20px;
-        }
-        input{
-            padding: 10px;
-            width: 250px;
-            border:1px solid #ccc;
-            border-radius: 6px;
-        }
-        button{
-            padding:10px 15px;
-            margin-left: 10px;
-            background-color: #007bff;
-            color:white;
-            border:none;
-            border-radius: 6px;
-            cursor:pointer;
-        }
-        button:hover{
-            background-color: #0056b3;
-        }
-        ul{
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-        li{
-            background-color: white;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0,0.1);
-        }
-    </style>
-</head>
-<body>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 30px;
+        background: linear-gradient(to right, #4facfe, #00f2fe);
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+      input {
+        padding: 12px 15px;
+        width: 260px;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        outline: none;
+        font-size: 14px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+      button {
+        padding: 10px 15px;
+        margin-left: 10px;
+        background-color: #012d30;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+      }
+      li {
+        background-color: #ffffff; /* tarjeta blanca visible sobre fondo degradado */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
 
+      /* texto ocupa el espacio disponible */
+      li span {
+        flex: 1;
+        font-size: 16px;
+        color: #333;
+        margin-right: 15px; /* espacio entre texto y botón */
+      }
+
+      /* efecto al pasar el mouse */
+      li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .delete-btn {
+        color: red;
+        font-size: 18px;
+        font-weight: bold;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        margin-left: 15px;
+      }
+
+      .delete-btn:hover {
+        color: darkred;
+      }
+
+      .delete-btn:focus,
+      .delete-btn:active,
+      .delete-btn:focus-visible {
+        color: red !important;
+        outline: none !important;
+        box-shadow: none !important;
+      }
+      #addTaskBtn {
+        padding: 10px 15px;
+        margin-left: 10px;
+        background-color: #012d30;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      #addTaskBtn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
     <h1>Task Manager</h1>
 
-    <input type="text" id="taskInput" placeholder="Escribe una nueva tarea"> <!-- ID para JS -->
+    <input type="text" id="taskInput" placeholder="Escribe una nueva tarea" />
+    <!-- ID para JS -->
 
-    <button id="addTaskBtn">Agregar tarea</button> <!-- ID para JS -->
+    <button id="addTaskBtn">Agregar tarea</button>
+    <!-- ID para JS -->
 
-    <ul id="taskList"> <!-- Lista donde aparecerán las tareas -->
-        <li>Estudiar JavaScript</li> <!-- Ejemplo -->
+    <ul id="taskList">
+      <!-- Lista donde aparecerán las tareas -->
     </ul>
-<script>
-    const input = document.querySelector("#taskInput");
-    const button = document.querySelector("#addTaskBtn");
-    const list = document.querySelector("#taskList");
+    <script>
+      const input = document.querySelector("#taskInput");
+      const button = document.querySelector("#addTaskBtn");
+      const list = document.querySelector("#taskList");
 
-    button.addEventListener("click", ()=>{})
-</script>
-</body>
+      button.addEventListener("click", () => {
+        const taskText = input.value.trim();
+        if (!taskText) return;
+
+        const li = document.createElement("li");
+
+        // crear span para el texto
+        const span = document.createElement("span");
+        span.textContent = taskText;
+
+        // botón eliminar
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "✖";
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.addEventListener("click", () => li.remove());
+
+        // agregar al li
+        li.appendChild(span); // primero el texto
+        li.appendChild(deleteBtn); // luego la X
+
+        list.appendChild(li);
+        input.value = "";
+      });
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          button.click(); // simula el click del botón
+        }
+      });
+    </script>
+  </body>
 </html>
